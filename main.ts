@@ -1,4 +1,5 @@
 import Ask from "https://deno.land/x/ask@1.0.6/mod.ts";
+import { WORDS } from "./words.ts";
 
 const ASK = new Ask();
 const NUMBER_OF_ROUNDS = 6;
@@ -8,15 +9,6 @@ const RESULT_REGEX = /^(p|s|n){5}$/;
 
 interface GameState {
   remainingWords: Array<string>;
-}
-
-/**
- * Load all 5-letter words from 'words.txt' that are alpha-only.
- */
-async function loadWords(): Promise<Array<string>> {
-  const content = await Deno.readFile("words.txt");
-  const words = new TextDecoder("utf-8").decode(content).split("\n");
-  return words.map((w) => w.toLowerCase()).filter((w) => WORD_REGEX.test(w));
 }
 
 /**
@@ -71,7 +63,7 @@ async function handleRound(gameState: GameState): Promise<void> {
  */
 async function main(): Promise<void> {
   const gameState: GameState = {
-    remainingWords: [...(await loadWords())],
+    remainingWords: [...WORDS],
   };
 
   console.log(
